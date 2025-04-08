@@ -3,28 +3,30 @@
 require_once __DIR__ . '/../../lib/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Email = $_POST['email'];
-    $Password = $_POST['password'];
-    $stmt = $conn->prepare("SELECT Password FROM User WHERE Email = ?");
-    $stmt->bind_param("s", $Email);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $stmt = $conn->prepare("SELECT password FROM User WHERE email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($db_password);
         $stmt->fetch();
-        if ($Password === $db_password) {
+        if (password_verify($password, $db_password)) {
             session_start();
-            $_SESSION['Email'] = $Email;
+            $_SESSION['Email'] = $email;
+            $_SESSION['User_ID'] = $conn->query("SELECT user_id FROM user WHERE email = '$email'")->fetch_assoc()['user_id'];
+            $_SESSION['Role'] = $conn->query("SELECT role FROM user WHERE email = '$email'")->fetch_assoc()['role'];
             header("Location: ../index.php");
         } else {
             echo "Invalid email or password";
         }
     } else {
-        header("Location: register.php");
-        echo "Invalid email or password";
+        echo "Invalid email or password.";
     }
 }
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password">Password</label>
             <input type="password" name="password" id="password" class="form-control" required>
             <input type="submit" value="Login" class="btn btn-primary">
+            <p>Don't have an account? <a href="register.php">Register here</a></p>
         </form>
 
     </div>

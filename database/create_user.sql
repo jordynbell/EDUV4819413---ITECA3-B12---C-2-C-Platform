@@ -3,6 +3,6 @@ CREATE TABLE User (
   name VARCHAR(30) NOT NULL,
   surname VARCHAR(30) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  password VARCHAR(128) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   role VARCHAR(30) NOT NULL
   )

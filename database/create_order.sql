@@ -4,5 +4,7 @@ CREATE TABLE `Order` (
   status VARCHAR(15) NOT NULL,
   price float NOT NULL,
   customer_id INT NOT NULL,
-  FOREIGN KEY (customer_id) REFERENCES User(user_id)
+  product_id INT NOT NULL,
+  FOREIGN KEY (customer_id) REFERENCES User(user_id),
+  FOREIGN KEY (product_id) REFERENCES Product(product_id)
 )

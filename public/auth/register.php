@@ -8,14 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $role = "Normal";
 
     if ($password !== $confirm_password) {
         echo "Passwords do not match";
         exit;
     }
 
-    $stmt = $conn->prepare("INSERT INTO User (Name, Surname, Email, Password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $surname, $email, $password);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("INSERT INTO User (name, surname, email, password, role) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $surname, $email, $hashed_password, $role);
 
     if ($stmt->execute()) {
         header("Location: login.php");
