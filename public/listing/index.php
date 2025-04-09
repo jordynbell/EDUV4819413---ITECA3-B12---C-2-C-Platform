@@ -12,7 +12,7 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT title, description, category, price FROM product');
+$stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product');
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -45,7 +45,7 @@ $result = $stmt->get_result();
             echo "<td>" . htmlspecialchars($row['description']) . "</td>";
             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
             echo "<td>R " . htmlspecialchars($row['price']) . "</td>";
-            echo "<td>" . "</td>";
+            echo "<td><form action='../order/create.php' method='POST'><input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'><button type='submit'>Order</button></form></td>";
             echo "</tr>";
         }
         ?>

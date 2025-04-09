@@ -5,6 +5,6 @@ CREATE TABLE Product (
     category VARCHAR(20) NOT NULL,
     price float NOT NULL,
     seller_id INT NOT NULL,
-    status varchar(7) NOT NULL,
+    status varchar(15) NOT NULL,
     FOREIGN KEY (seller_id) REFERENCES User(user_id)
 )

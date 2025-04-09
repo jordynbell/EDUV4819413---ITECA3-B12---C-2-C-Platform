@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             echo "<td></td>";
         }
-        echo "<td><form action='update.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><input type='submit' name ='update' value='Update'></form></td>";
+        echo "<td><form action='update.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' name='loadUpdate'>Update</button></form></td>";
         echo "</tr>";
     }
     ?>

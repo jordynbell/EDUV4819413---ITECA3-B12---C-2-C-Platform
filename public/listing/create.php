@@ -18,13 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
     $price = $_POST['price'];
     $seller_id = $_SESSION['User_ID'];
-    $status = "active";
+    $status = "Active";
 
     $stmt = $conn->prepare("INSERT INTO product (title, description, price, category, seller_id, status) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssdsis", $title, $description, $price, $category, $seller_id, $status);
 
     if ($stmt->execute()) {
-        header("Location: ../index.php");
+        header("Location: index.php");
         exit;
     } else {
         echo "Error: " . $stmt->error;

@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
 
         $seller_id = $_SESSION["User_ID"];
-        $stmt = $conn->prepare('SELECT product_id, title, description, category, price FROM product WHERE seller_id = ?');
+        $stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product WHERE seller_id = ?');
         $stmt->bind_param("i", $seller_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -58,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<td>" . htmlspecialchars($row['title']) . "</td>";
             echo "<td>" . htmlspecialchars($row['description']) . "</td>";
             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
-            echo "<td>R" . htmlspecialchars($row['price']) . "</td>";
+            echo "<td>R " . htmlspecialchars($row['price']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['status']) . "</td>";
             echo "<td><form action='' method='POST'><input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'><input type='submit' value='Delete'></form></td>";
             echo "</tr>";
         }
