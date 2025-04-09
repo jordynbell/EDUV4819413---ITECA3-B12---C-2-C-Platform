@@ -29,7 +29,7 @@ $row = $result->fetch_assoc();
     <a href="/C2CPlatform/public/listing/seller_index.php">My Listings</a>
     <?php
     if ($row['role'] == "Admin") {
-        echo " <a href='/C2CPlatform/public/manage/user.php'>Manage Users</a>";
+        echo " <a href='/C2CPlatform/public/manage/users.php'>Manage Users</a>";
     }
     ?>
     <a href="/C2CPlatform/public/auth/logout.php">Logout</a>

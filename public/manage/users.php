@@ -21,15 +21,7 @@ $stmt = $conn->prepare('SELECT * FROM user');
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete']))
-{
-    $user_id = $_POST["user_id"];
-    $stmt = $conn->prepare('DELETE FROM user WHERE user_id = ?');
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete']))
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $user_id = $_POST["user_id"];
     $stmt = $conn->prepare('DELETE FROM user WHERE user_id = ?');
@@ -58,8 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete']))
 <th>Role</th>
 <th colspan="2">Actions</th>
 
-<!-- Try thissssssssssssssssssssssssss -->
- <!-- echo ' ' with form elements inbetween. -->
 <?php
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
@@ -76,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete']))
         {
             echo "<td></td>";
         }
-        echo "<td></td>"; // Try input button, javascript to enable inputs, then click save button to post.
+        echo "<td><form action='update.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><input type='submit' name ='update' value='Update'></form></td>";
         echo "</tr>";
     }
     ?>
