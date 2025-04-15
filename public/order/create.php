@@ -36,19 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $insert_stmt->bind_param("sdsii", $order_date, $price, $status, $customer_id, $product_id);
 
             if ($insert_stmt->execute()) {
+                $order_id = $insert_stmt->insert_id;
                 $insert_stmt->close();
 
-                $update_stmt = $conn->prepare('UPDATE product SET status = ? WHERE product_id = ?');
-                $new_status = 'Sold';
-                $update_stmt->bind_param("si", $new_status, $product_id);
-                if ($update_stmt->execute())
-                {
-                    $update_stmt->close();
-                } else {
-                    echo "Failed to update product status: " . $update_stmt->error;
-                }
-
-                header("Location: ../payment/payment.php");
+                header("Location: ../payment/create.php?order_id=$order_id");
                 exit;
             } else {
                 echo "Failed to place order: " . $insert_stmt->error;
