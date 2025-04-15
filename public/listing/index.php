@@ -12,7 +12,8 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product');
+$stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product WHERE status = "Active" AND seller_id != ?');
+$stmt->bind_param("i", $_SESSION['User_ID']);
 $stmt->execute();
 $result = $stmt->get_result();
 

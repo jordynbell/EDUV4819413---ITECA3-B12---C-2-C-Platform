@@ -15,35 +15,44 @@ if (!isset($_SESSION["Email"])) {
 $product_data = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['product_id'])) {
-        $product_id = $_POST['product_id'];
+    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+
+    if ($product_id) {
+
         $stmt = $conn->prepare('SELECT product_id, product.title, product.description, product.category, product.price, product.status, product.seller_id, user.name, user.surname FROM product INNER JOIN user ON product.seller_id = user.user_id WHERE product.product_id = ?');
         $stmt->bind_param("i", $product_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $product_data = $result->fetch_assoc();
-
-    } elseif (isset($_POST['action'])) {
-
-        $order_date = (new DateTime('now', new DateTimeZone('GMT+2')))->format('Y-m-d H:i:s');
-        if ($product_data != null) {
+        $stmt->close();
+        
+        if (isset($_POST['action']) && $_POST['action'] == 'confirm') {
+            $order_date = (new DateTime('now', new DateTimeZone('GMT+2')))->format('Y-m-d H:i:s');
             $price = $product_data['price'];
-        } else {
-            echo "Failed to load product information.";
-            exit;
-        }
-        $status = 'Ordered';
-        $customer_id = $_SESSION['User_ID'];
+            $status = 'Ordered';
+            $customer_id = $_SESSION['User_ID'];
 
-        $stmt = $conn->prepare('INSERT INTO `order` (order_date, price, status, customer_id, product_id) VALUES(?,?,?,?,?)');
-        $stmt->bind_param("sdsii", $order_date, $price, $status, $customer_id, $product_id);
+            $insert_stmt = $conn->prepare('INSERT INTO `order` (order_date, price, status, customer_id, product_id) VALUES(?,?,?,?,?)');
+            $insert_stmt->bind_param("sdsii", $order_date, $price, $status, $customer_id, $product_id);
 
+            if ($insert_stmt->execute()) {
+                $insert_stmt->close();
 
-        if ($stmt->execute()) {
-            //header("Location: ../listing/index.php");
-            //exit;
-        } else {
-            echo "Failed to place order.";
+                $update_stmt = $conn->prepare('UPDATE product SET status = ? WHERE product_id = ?');
+                $new_status = 'Sold';
+                $update_stmt->bind_param("si", $new_status, $product_id);
+                if ($update_stmt->execute())
+                {
+                    $update_stmt->close();
+                } else {
+                    echo "Failed to update product status: " . $update_stmt->error;
+                }
+
+                header("Location: ../payment/payment.php");
+                exit;
+            } else {
+                echo "Failed to place order: " . $insert_stmt->error;
+            }
         }
     }
 }
