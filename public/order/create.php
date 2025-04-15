@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $order_id = $insert_stmt->insert_id;
                 $insert_stmt->close();
 
-                header("Location: ../payment/create.php?order_id=$order_id");
+                header("Location: ../payment/create.php?order_id=$order_id&price=$price&product_id=$product_id");
                 exit;
             } else {
                 echo "Failed to place order: " . $insert_stmt->error;

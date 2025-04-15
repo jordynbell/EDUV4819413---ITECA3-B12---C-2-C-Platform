@@ -11,15 +11,13 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
-$amount = null;
+
 $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : 0;
+$amount = isset($_GET['price']) ? $_GET['price'] : null;
+$product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $amount = isset($_POST[$product_data['price']]) ? $_POST['price'] : null;
-    echo $amount;
-    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
-    echo $product_id;
     $payment_date = (new DateTime('now', new DateTimeZone('GMT+2')))->format('Y-m-d H:i:s');
 
     if ($order_id <= 0) {
@@ -38,12 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_stmt->bind_param("si", $new_status, $product_id);
             if ($update_stmt->execute())
             {
-                $update_stmt->close();
+                $update_stmt->close();    
+                header("Location: ../index.php");
             } else {
                 echo "Failed to update product status: " . $update_stmt->error;
             }
-
-            header("Location: ../index.php");
         } else {
             echo "Failed to process payment: " . $stmt->error;
         }
@@ -65,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 <form action="" method="post">
     <h1>Make Payment</h1>
+
+    <label for="Card Name"></label>
+    <input type="text" name="Card Name" id="cardName" placeholder="John Doe" required>
+
     <label for="price">Total:</label>
     <input type="text" name="price" id="price" value="<?php echo "R " . $amount ?>" readonly><br>
 
