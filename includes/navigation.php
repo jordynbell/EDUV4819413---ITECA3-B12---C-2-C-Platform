@@ -27,6 +27,7 @@ $row = $result->fetch_assoc();
     <a href="/C2CPlatform/public/listing/create.php">Create Listing</a>
     <a href="/C2CPlatform/public/listing/update.php">Update Listing</a>
     <a href="/C2CPlatform/public/listing/seller_index.php">My Listings</a>
+    <a href="/C2CPlatform/public/order/index.php">My Orders</a>
     <?php
     if ($row['role'] == "Admin") {
         echo " <a href='/C2CPlatform/public/manage/users.php'>Manage Users</a>";
