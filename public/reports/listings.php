@@ -12,6 +12,29 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
+if ($_SESSION['Role'] != 'Admin') {
+    header("Location: ../index.php");
+    exit;
+}
+
+
+
+?>
+
+<?php
+
+require_once __DIR__ . '/../../lib/db.php';
+require_once __DIR__ . '/../../includes/navigation.php';
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (!isset($_SESSION["Email"])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_id = $_POST['product_id'];
     $seller_id = $_SESSION['User_ID'];
@@ -49,8 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
 
         $seller_id = $_SESSION["User_ID"];
-        $stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product WHERE seller_id = ?');
-        $stmt->bind_param("i", $seller_id);
+        $stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product');
         $stmt->execute();
         $result = $stmt->get_result();
 
