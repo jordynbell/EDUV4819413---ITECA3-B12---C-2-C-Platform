@@ -158,8 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <label for="Address">Address Line:</label>
-                <input type="text" name="address_line" id="address_line"
-                    placeholder="123 Steyn Road, Grape Village"><br><br>
+                <input type="text" name="address_line" id="address_line" placeholder="123 Steyn Road, Grape Village" value="<?php echo $address['address_line'][$address["address_id"]] ?? null ?>"><br><br>
                 <label for="City">City:</label>
                 <input type="text" name="city" id="city" placeholder="Cape Town"><br><br>
                 <label for="Province">Province:</label>

@@ -52,14 +52,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "Failed to update product status: " . $update_stmt->error;
             }
 
-            $shipment_stmt = $conn->prepare('UPDATE shipment SET delivery_status = ? where order_id = ?');
+            $shipment_stmt = $conn->prepare('UPDATE shipment SET delivery_status = ?, shipment_date = ? where order_id = ?');
             $shipment_status = 'Shipped';
-            $shipment_stmt->bind_param("si", $shipment_status, $order_id);
+            $shipment_date = (new DateTime('now', new DateTimeZone('GMT+2')))->format('Y-m-d H:i:s');
+            $shipment_stmt->bind_param("ssi", $shipment_status, $shipment_date, $order_id);
+
             if ($shipment_stmt->execute())
             {
                 $shipment_stmt->close();
             } else {
                 echo "Failed to update shipment status: " . $shipment_stmt->error;
+            }
+
+            $sale_stmt = $conn->prepare('INSERT INTO sale (product_id, price, date_sold) VALUES (?, ?, ?)');
+            $sale_stmt->bind_param("ids", $product_id, $amount, $payment_date);
+            if ($sale_stmt->execute())
+            {
+                $sale_stmt->close();
+            } else {
+                echo "Failed to insert sale record: " . $sale_stmt->error;
             }
 
             header("Location: ../order/index.php");
@@ -85,6 +96,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <label for="Card Name"></label>
     <input type="text" name="Card Name" id="cardName" placeholder="John Doe" required>
+    <br>
+    
+    <label for="Card Number"></label>
+    <input type="text" name="Card Number" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+    <br>
+
+    <label for="Expiry Date"></label>
+    <input type="text" name="Expiry Date" id="expiryDate" placeholder="MM/YY" required>
+    <br>
+
+    <label for="CVV"></label>
+    <input type="text" name="CVV" id="cvv" placeholder="123" required>
+    <br>
 
     <label for="price">Total:</label>
     <input type="text" name="price" id="price" value="<?php echo $amount ?>" readonly><br>

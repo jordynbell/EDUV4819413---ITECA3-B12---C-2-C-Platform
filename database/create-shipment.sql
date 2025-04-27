@@ -4,6 +4,7 @@ CREATE TABLE Shipment(
     delivery_status VARCHAR(15) NOT NULL,
     order_id INT NOT NULL,
     address_id INT NULL,
+    shipment_date DATE NULL,
     FOREIGN KEY (order_id) REFERENCES `Order`(order_id),
     FOREIGN KEY (address_id) REFERENCES Address(address_id)
 )
