@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,6 +10,8 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
+
+$pageTitle = "Update user - Squito";
 
 $user_data = null;
 
@@ -50,18 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+require_once __DIR__ . '/../../lib/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update user</title>
-</head>
-
-<body>
     <?php if ($user_data): ?>
         <form action="update.php" method="post">
             <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_data["user_id"]; ?>" required>
@@ -87,6 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <a href="users.php">Return to previous page</a>
 
-</body>
-
-</html>
+<?php
+require_once __DIR__ . '/../../lib/footer.php';
+?>

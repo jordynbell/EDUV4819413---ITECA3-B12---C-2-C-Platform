@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -17,6 +16,8 @@ if ($_SESSION['Role'] != 'Admin') {
     exit;
 }
 
+$pageTitle = "Users - Squito";
+
 $stmt = $conn->prepare('SELECT * FROM user');
 $stmt->execute();
 $result = $stmt->get_result();
@@ -29,18 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $stmt->execute();
 }
 
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users</title>
-</head>
-
-<body>
 <h1>Users</h1>
 <table border="1">
     <th>ID</th>
@@ -72,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     ?>
 
 </table>
-</body>
 
-</html>
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

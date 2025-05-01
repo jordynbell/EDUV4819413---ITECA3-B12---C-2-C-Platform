@@ -1,7 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
+
+$pageTitle = "Create Listing - Squito";
 
 if (!isset($_SESSION)) {
     session_start();
@@ -31,16 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 $conn->close();
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create listing</title>
-</head>
-<body>
+require_once __DIR__ . '/../../includes/header.php';
+?>
     
 <h1>Create Listing</h1>
 
@@ -69,5 +63,7 @@ $conn->close();
     <input type="submit" value="Create Listing">
 
 </form>
-</body>
-</html>
+
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

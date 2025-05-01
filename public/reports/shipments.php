@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -17,22 +16,17 @@ if ($_SESSION['Role'] != 'Admin') {
     exit;
 }
 
+$pageTitle = "Shipments - Squito";
+
 $stmt = $conn->prepare('SELECT * FROM shipment');
 $stmt->execute();
 $result = $stmt->get_result();
 $shipments = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-?>
+require_once __DIR__ . '/../../includes/header.php';
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipments</title>
-</head>
-<body>
+?>
     
     <h1>Shipments</h1>
     <table border="1">
@@ -56,5 +50,6 @@ $stmt->close();
         <?php endforeach; ?>
     </table>
 
-</body>
-</html>
+    <?php
+    require_once __DIR__ . '/../../includes/footer.php';
+    ?>

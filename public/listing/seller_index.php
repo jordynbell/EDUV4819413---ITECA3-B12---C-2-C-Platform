@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,6 +10,8 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
+
+$pageTitle = "Seller Listings - Squito";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_id = $_POST['product_id'];
@@ -24,18 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Listings</title>
-</head>
-
-<body>
     <h1>Seller Listings</h1>
     <table border="1">
         <tr>
@@ -67,6 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?>
     </table>
     <br>
-</body>
-
-</html>
+<?php 
+require_once __DIR__ . '/../../includes/footer.php';
+?>

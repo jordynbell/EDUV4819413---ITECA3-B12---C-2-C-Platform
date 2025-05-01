@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -12,23 +11,17 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
+$pageTitle = "View Listings - Squito";
+
 $stmt = $conn->prepare('SELECT product_id, title, description, category, price, status FROM product WHERE status = "Active" AND seller_id != ?');
 $stmt->bind_param("i", $_SESSION['User_ID']);
 $stmt->execute();
 $result = $stmt->get_result();
 
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Listings</title>
-</head>
-
-<body>
     <h1>View Listings</h1>
     <table border="1">
         <tr>
@@ -52,6 +45,6 @@ $result = $stmt->get_result();
         ?>
     </table>
     <br>
-</body>
-
-</html>
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

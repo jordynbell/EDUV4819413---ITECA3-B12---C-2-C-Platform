@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,6 +10,8 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
+
+$pageTitle = "Update Listing - Squito";
 
 $sql = "SELECT product_id, title FROM product WHERE seller_id = '{$_SESSION['User_ID']}' AND status = 'active'";
 $result = $conn->query($sql);
@@ -56,18 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update listing</title>
-</head>
-
-<body>
 
     <h1>Update Listing</h1>
 
@@ -122,10 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php else: ?>
         <p>Please select a product to update.</p>
     <?php endif; ?>
-</body>
-
-</html>
 
 <?php
 $conn->close();
+require_once __DIR__ . '/../../includes/footer.php';
 ?>

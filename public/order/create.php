@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,6 +10,8 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
+
+$pageTitle = "Create Order - Squito";
 
 $user_id = $_SESSION['User_ID'];
 $product_data = null;
@@ -89,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </script>
                     ';
                 exit;
-
             } else {
                 echo "Failed to place order: " . $insert_stmt->error;
             }
@@ -97,18 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Product</title>
-</head>
-
-<body>
     <?php if ($product_data): ?>
         <h1>Order Details</h1>
         <table border="1">
@@ -150,12 +142,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <select name="existing_address" id="existing_address">
                         <option value="">Select an address</option>
                         <?php foreach ($addresses as $address): ?>
-                            <option value="<?php echo $address['address_id']; ?>">
-                                <?php echo htmlspecialchars($address['address_line'] . ', ' . $address['city'] . ', ' . $address['province'] . ', ' . $address['country'] . ', ' . $address['postal_code']); ?>
+                            <option
+                                value="<?= $address['address_id']; ?>"
+                                data-line="<?= htmlspecialchars($address['address_line']); ?>"
+                                data-city="<?= htmlspecialchars($address['city']); ?>"
+                                data-province="<?= htmlspecialchars($address['province']); ?>"
+                                data-country="<?= htmlspecialchars($address['country']); ?>"
+                                data-postal="<?= htmlspecialchars($address['postal_code']); ?>">
+                                <?= htmlspecialchars(
+                                    "{$address['address_line']}, {$address['city']}, {$address['province']}, {$address['country']}, {$address['postal_code']}"
+                                ); ?>
                             </option>
                         <?php endforeach; ?>
-                    </select><br><br>
+                    </select>
                 <?php endif; ?>
+
+                <br><br>
 
                 <label for="Address">Address Line:</label>
                 <input type="text" name="address_line" id="address_line" placeholder="123 Steyn Road, Grape Village" value="<?php echo $address['address_line'][$address["address_id"]] ?? null ?>"><br><br>
@@ -175,17 +177,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php else: ?>
         <p>No product selected.</p>
     <?php endif; ?>
-</body>
 
-</html>
+    <?php
+    require_once __DIR__ . '/../../includes/footer.php';
+    ?>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.getElementById('existing_address')
+  .addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    if (!this.value) {
+      // clear if “Select an address”
+      document.getElementById('address_line').value = '';
+      document.getElementById('city').value         = '';
+      document.getElementById('province').value     = '';
+      document.getElementById('country').value      = '';
+      document.getElementById('postal_code').value  = '';
+      return;
+    }
+    // populate from data- attributes
+    document.getElementById('address_line').value   = opt.dataset.line;
+    document.getElementById('city').value           = opt.dataset.city;
+    document.getElementById('province').value       = opt.dataset.province;
+    document.getElementById('country').value        = opt.dataset.country;
+    document.getElementById('postal_code').value    = opt.dataset.postal;
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const deliveryMethodRadios = document.querySelectorAll('input[name="delivery_method"]');
         const deliveryAddressDiv = document.getElementById('deliveryAddress');
 
         deliveryMethodRadios.forEach(radio => {
-            radio.addEventListener('change', function () {
+            radio.addEventListener('change', function() {
                 if (this.value === 'Delivery') {
                     deliveryAddressDiv.style.display = 'block';
                 } else {

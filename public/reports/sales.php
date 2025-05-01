@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -17,17 +16,12 @@ if ($_SESSION['Role'] != 'Admin') {
     exit;
 }
 
+$pageTitle = "Sales Report - Squito";
+
+require_once __DIR__ . '/../../includes/header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales</title>
-</head>
-<body>
-    
     <h1>Sales</h1>
     <table border="1">
         <tr>
@@ -37,13 +31,17 @@ if ($_SESSION['Role'] != 'Admin') {
             <th>Date Sold</th>
         </tr>
         <?php
+        $total = 0;
+
         $stmt = $conn->prepare('SELECT * FROM sale');
         $stmt->execute();
         $result = $stmt->get_result();
         $sales = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
-        foreach ($sales as $sale): ?>
+        foreach ($sales as $sale):
+            $total += (float)$sale['price']; ?>
+
             <tr>
                 <td><?php echo htmlspecialchars($sale['sale_id']); ?></td>
                 <td><?php echo htmlspecialchars($sale['product_id']); ?></td>
@@ -51,7 +49,14 @@ if ($_SESSION['Role'] != 'Admin') {
                 <td><?php echo htmlspecialchars($sale['date_sold']); ?></td>
             </tr>
         <?php endforeach; ?>
+
+        <tr>
+            <td colspan="3" align="right"><strong>Total</strong></td>
+            <td><strong><?php echo 'R ' . number_format($total, 2); ?></strong></td>
+        </tr>
+
     </table>
 
-</body>
-</html>
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

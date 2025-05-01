@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../lib/db.php';
-require_once __DIR__ . '/../../includes/navigation.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,6 +10,8 @@ if (!isset($_SESSION["Email"])) {
     header("Location: ../auth/login.php");
     exit;
 }
+
+$pageTitle = "Payment - Squito";
 
 $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : 0;
 $amount = isset($_POST['price']) ? $_POST['price'] : null;
@@ -80,16 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-?>
+require_once __DIR__ . '/../../includes/header.php';
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make payment</title>
-</head>
-<body>
+?>
     
 <form action="" method="post">
     <h1>Make Payment</h1>
@@ -121,5 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="submit" value="Confirm Payment">
 </form>
 
-</body>
-</html>
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

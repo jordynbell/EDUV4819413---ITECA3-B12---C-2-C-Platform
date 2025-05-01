@@ -53,6 +53,5 @@ $conn->close();
         <input type="password" name="confirm_password" id="confirm_password" required>
         <input type="submit" value="Register">
     </form>
-</body>
 
-</html>
+    <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
