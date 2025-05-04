@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $stmt = $conn->prepare('DELETE FROM user WHERE user_id = ?');
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
+    $stmt->close();
 }
 
 require_once __DIR__ . '/../../includes/header.php';
@@ -62,6 +63,7 @@ require_once __DIR__ . '/../../includes/header.php';
         echo "<td><form action='update.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' name='loadUpdate'>Update</button></form></td>";
         echo "</tr>";
     }
+    $stmt->close();
     ?>
 
 </table>

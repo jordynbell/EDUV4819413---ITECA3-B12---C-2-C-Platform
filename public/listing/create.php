@@ -26,12 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         header("Location: index.php");
+        $stmt->close();
         exit;
     } else {
         echo "Error: " . $stmt->error;
     }
 }
-$conn->close();
 
 require_once __DIR__ . '/../../includes/header.php';
 ?>

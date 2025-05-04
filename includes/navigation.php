@@ -12,29 +12,56 @@ if (!isset($_SESSION["User_ID"])) {
 }
 
 $user_id = $_SESSION["User_ID"];
-
-$stmt = $conn->prepare('SELECT role FROM user WHERE user_id = ?');
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
+$role = $_SESSION["Role"];
 
 ?>
 
-<div class="navbar">
-    <a href="/C2CPlatform/public/index.php">Home</a>
-    <a href="/C2CPlatform/public/listing/index.php">View Listing</a>
-    <a href="/C2CPlatform/public/listing/create.php">Create Listing</a>
-    <a href="/C2CPlatform/public/listing/update.php">Update Listing</a>
-    <a href="/C2CPlatform/public/listing/seller_index.php">My Listings</a>
-    <a href="/C2CPlatform/public/order/index.php">My Orders</a>
-    <?php
-    if ($row['role'] == "Admin") {
-        echo " <a href='/C2CPlatform/public/manage/users.php'>Manage Users</a>";
-        echo " <a href='/C2CPlatform/public/reports/listings.php'>Listings</a>";
-        echo " <a href='/C2CPlatform/public/reports/sales.php'>Sales</a>";
-        echo " <a href='/C2CPlatform/public/reports/shipments.php'>Shipments</a>";
-    }
-    ?>
-    <a href="/C2CPlatform/public/auth/logout.php">Logout</a>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/C2CPlatform/public/index.php">Squito</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/C2CPlatform/public/index.php">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="listingsDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Listings
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="listingsDropdown">
+            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/index.php">View Listings</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/create.php">Create Listing</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/update.php">Update Listing</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/seller_index.php">My Listings</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/C2CPlatform/public/order/index.php">My Orders</a>
+        </li>
+        <?php if ($role === 'Admin'): ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+            <li><a class="dropdown-item" href="/C2CPlatform/public/manage/users.php">Manage Users</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-header">Reports</li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/reports/listings.php">Listings Report</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/reports/sales.php">Sales Report</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/reports/shipments.php">Shipments Report</a></li>
+          </ul>
+        </li>
+        <?php endif; ?>
+        <li class="nav-item">
+          <a class="nav-link" href="/C2CPlatform/public/auth/logout.php">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

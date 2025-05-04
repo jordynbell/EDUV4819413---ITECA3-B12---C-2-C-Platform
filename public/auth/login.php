@@ -46,7 +46,7 @@ $conn->close();
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="form-control" required>
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" required>
+            <input type="password" name="password" id="password" class="form-control" required autocomplete="off">
             <input type="submit" value="Login" class="btn btn-primary">
             <p>Don't have an account? <a href="register.php">Register here</a></p>
         </form>

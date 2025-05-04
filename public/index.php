@@ -10,7 +10,9 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
-require_once '../includes/navigation.php';
+$pageTitle = "Home - Squito";
+
+require_once __DIR__ . '/../includes/header.php';
 
 ?>
 <!DOCTYPE html>
@@ -25,4 +27,7 @@ require_once '../includes/navigation.php';
     <?php
         echo "Welcome to Squito!";
     ?>
-</body>
+
+<?php
+require_once __DIR__ . '/../includes/footer.php';
+?>
