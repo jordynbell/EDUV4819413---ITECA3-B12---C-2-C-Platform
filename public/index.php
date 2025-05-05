@@ -15,13 +15,6 @@ $pageTitle = "Home - Squito";
 require_once __DIR__ . '/../includes/header.php';
 
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Squito</title>
-    </head>
-</html>
-<body>
 
     <h1>My First PHP Page</h1>
     <?php

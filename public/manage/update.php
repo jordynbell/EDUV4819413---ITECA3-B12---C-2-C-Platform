@@ -81,5 +81,5 @@ require_once __DIR__ . '/../../includes/header.php';
     <a href="users.php">Return to previous page</a>
 
 <?php
-require_once __DIR__ . '/../../lib/footer.php';
+require_once __DIR__ . '/../../includes/footer.php';
 ?>

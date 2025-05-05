@@ -6,13 +6,17 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_SESSION["User_ID"])) {
+$current_page = basename($_SERVER['PHP_SELF']);
+$auth_pages = ['login.php', 'register.php'];
+
+if (!isset($_SESSION["User_ID"]) && !in_array($current_page, $auth_pages)) {
     header("Location: ../auth/login.php");
     exit;
 }
 
-$user_id = $_SESSION["User_ID"];
-$role = $_SESSION["Role"];
+// Get user info only if logged in
+$user_id = isset($_SESSION["User_ID"]) ? $_SESSION["User_ID"] : null;
+$role = isset($_SESSION["Role"]) ? $_SESSION["Role"] : null;
 
 ?>
 
@@ -58,9 +62,11 @@ $role = $_SESSION["Role"];
           </ul>
         </li>
         <?php endif; ?>
+        <?php if (isset($_SESSION["User_ID"])): ?>
         <li class="nav-item">
           <a class="nav-link" href="/C2CPlatform/public/auth/logout.php">Logout</a>
         </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
