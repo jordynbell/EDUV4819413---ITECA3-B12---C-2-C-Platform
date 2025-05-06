@@ -3,5 +3,5 @@ CREATE TABLE sale (
     product_id INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     date_sold DATE NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
 );

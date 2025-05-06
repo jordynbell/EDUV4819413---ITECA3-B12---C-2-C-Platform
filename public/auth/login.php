@@ -80,7 +80,7 @@ require_once __DIR__ . '/../../includes/header.php';
                     <div class="mb-3 mt-2">
                         <label for="email">Email</label>
                         <input type="email" name="email" id="email" class="form-control" required
-                            value="<?php echo $email; ?>" autocomplete="off">
+                            value="<?php echo $email; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="password">Password</label>
