@@ -29,25 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Could not load the user's information.";
             exit;
         }
-    }
-    else if (isset($_POST['saveUpdate']))
-    {
+    } else if (isset($_POST['saveUpdate'])) {
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $email = $_POST['email'];
         $role = $_POST['role'];
         $stmt = $conn->prepare('UPDATE user SET name = ?, surname = ?, email = ?, role = ? WHERE user_id = ?');
         $stmt->bind_param("ssssi", $name, $surname, $email, $role, $user_id);
-        if ($stmt->execute())
-        {
+        if ($stmt->execute()) {
             header("Location: users.php");
             exit;
-        }
-        else
-        {
+        } else {
             echo "Failed to update user.";
         }
-
     }
 }
 
@@ -55,30 +49,41 @@ require_once __DIR__ . '/../../includes/header.php';
 
 ?>
 
-    <?php if ($user_data): ?>
-        <form action="update.php" method="post">
-            <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_data["user_id"]; ?>" required>
+<?php if ($user_data): ?>
 
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" value="<?php echo $user_data["name"]; ?>" required> </br>
+    <div class="container mx-auto mt-5 mb-5" style="max-width: 60rem;">
+        <h1 class="text-center mb-4">Update User</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm border rounded p-4">
+                    <form action="update.php" method="post">
+                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_data["user_id"]; ?>" required>
 
-            <label for="surname">Surname</label>
-            <input type="text" name="surname" id="surname" value="<?php echo $user_data["surname"]; ?>" required> </br>
-
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="<?php echo $user_data["email"]; ?>" required> </br>
-
-            <label for="role">Role</label>
-            <input type="role" name="role" id="role" value="<?php echo $user_data["role"]; ?>" required> </br>
-
-            <button type="submit" name="saveUpdate">Save</button>
-
-        </form>
-    <?php else: ?>
-        <p>An error occurred</p>
-    <?php endif; ?>
-
-    <a href="users.php">Return to previous page</a>
+                        <div class="mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" value="<?php echo $user_data["name"]; ?>" class="form-control" required> </br>
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname">Surname</label>
+                            <input type="text" name="surname" id="surname" value="<?php echo $user_data["surname"]; ?>" class="form-control" required> </br>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" value="<?php echo $user_data["email"]; ?>" class="form-control" required> </br>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role">Role</label>
+                            <input type="role" name="role" id="role" value="<?php echo $user_data["role"]; ?>" class="form-control" required> </br>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" name="saveUpdate" class="btn btn-primary mt-2 mb-2" style="width: 30%;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
 <?php
 require_once __DIR__ . '/../../includes/footer.php';

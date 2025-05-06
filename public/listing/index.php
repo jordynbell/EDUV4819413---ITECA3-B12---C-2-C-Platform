@@ -22,29 +22,33 @@ require_once __DIR__ . '/../../includes/header.php';
 
 ?>
 
-    <h1>View Listings</h1>
-    <table border="1">
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-        <?php
+<div class="container">
+    <h1 class="text-center">View Listings</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered" border="1">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            <?php
 
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($row['title']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['category']) . "</td>";
-            echo "<td>R " . htmlspecialchars($row['price']) . "</td>";
-            echo "<td><form action='../order/create.php' method='POST'><input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'><button type='submit'>Order</button></form></td>";
-            echo "</tr>";
-        }
-        ?>
-    </table>
-    <br>
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['title']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['category']) . "</td>";
+                echo "<td>R " . htmlspecialchars($row['price']) . "</td>";
+                echo "<td><form action='../order/create.php' method='POST'><input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'><button type='submit' class='btn btn-primary'>Order</button></form></td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
+    </div>
+</div>
+
 <?php
 require_once __DIR__ . '/../../includes/footer.php';
 ?>

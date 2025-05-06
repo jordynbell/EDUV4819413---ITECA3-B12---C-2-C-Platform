@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: ../index.php");
             exit;
-
         } else {
             $_SESSION['flash_error'] = 'pwd_incorrect';
             $_SESSION['form_data'] = [
@@ -87,7 +86,10 @@ require_once __DIR__ . '/../../includes/header.php';
                         <input type="password" name="password" id="password" class="form-control" required
                             autocomplete="off">
                     </div>
-                    <input type="submit" value="Login" class="btn btn-primary w-100 mt-2 mb-2">
+                    <div class="mb-3 d-flex justify-content-center">
+                        <input type="submit" value="Login" class="btn btn-primary mt-2 mb-2" style="width: 40%;">
+                    </div>
+
                 </form>
                 <div class="text-center mt-3">
                     <p class="mb-0">Don't have an account? <a href="register.php">Register here</a></p>
@@ -113,7 +115,7 @@ require_once __DIR__ . '/../../includes/header.php';
 
 <script>
     <?php if ($loginError): ?>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var toastElement = document.getElementById('errorToast');
             var toast = new bootstrap.Toast(toastElement, {
                 autohide: true,

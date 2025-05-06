@@ -20,7 +20,7 @@ $role = isset($_SESSION["Role"]) ? $_SESSION["Role"] : null;
 
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand" href="/C2CPlatform/public/index.php">Squito</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">

@@ -61,59 +61,86 @@ require_once __DIR__ . '/../../includes/header.php';
 
 ?>
 
-    <h1>Update Listing</h1>
+<div class="container mx-auto mt-5 mb-5" style="max-width: 60rem;">
+    <h1 class="text-center mb-4">Update Listing</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border rounded p-4">
+                <form action="" method="get">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="id">Product to update</label>
+                            <select name="id" id="id" class="form-control" required>
+                                <option value="">Select a product</option>
+                                <?php
 
-    <form action="" method="get">
-        <div class="form-group">
-            <label for="id">Product to update</label>
-            <select name="id" id="id" required>
-                <option value="">Select a product</option>
-                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        // Check if the product is already selected
+                                        $selected = (isset($_GET['id']) && $_GET['id'] == $row["product_id"]) ? "selected" : "";
+                                        echo "<option value='{$row["product_id"]}' $selected>{$row["title"]}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>No products found</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        // Check if the product is already selected
-                        $selected = (isset($_GET['id']) && $_GET['id'] == $row["product_id"]) ? "selected" : "";
-                        echo "<option value='{$row["product_id"]}' $selected>{$row["title"]}</option>";
-                    }
-                } else {
-                    echo "<option value=''>No products found</option>";
-                }
-                ?>
-            </select><br>
-            <button type="submit">Load Product</button>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" class="form-control btn btn-primary" style="width: 40%;">Load Product</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
-    <?php if ($product_data): ?>
-        <form action="" method="post">
-            <input type="hidden" name="product_id" value="<?php echo $product_data["product_id"]; ?>">
+    </div>
+</div>
+<?php if ($product_data): ?>
+    <div class="container mx-auto mt-5 mb-5" style="max-width: 60rem;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm border rounded p-4">
+                    <form action="" method="post">
+                        <input type="hidden" name="product_id" value="<?php echo $product_data["product_id"]; ?>">
 
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" value="<?php echo $product_data["title"]; ?>" required><br>
+                        <div class="mb-3">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" value="<?php echo $product_data["title"]; ?>" class="form-control" required>
+                        </div>
 
-            <label for="description">Description</label>
-            <textarea name="description" id="description"
-                required><?php echo $product_data["description"]; ?></textarea><br>
+                        <div class="mb-3">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description"
+                            class="form-control" required><?php echo $product_data["description"]; ?></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price">Price</label>
+                            <input type="number" step="0.01" name="price" id="price" value="<?php echo $product_data["price"]; ?>"
+                               class="form-control" required>
+                        </div>
 
-            <label for="price">Price</label>
-            <input type="number" step="0.01" name="price" id="price" value="<?php echo $product_data["price"]; ?>"
-                required><br>
-
-            <label for="category">Category</label>
-            <select name="category" id="category" required>
-                <option value="">Select a category</option>
-                <option value="Electronics" <?php echo ($product_data["category"] == "electronics") ? "selected" : ""; ?>>Electronics</option>
-                <option value="Furniture" <?php echo ($product_data["category"] == "furniture") ? "selected" : ""; ?>>Furniture</option>
-                <option value="Clothing" <?php echo ($product_data["category"] == "clothing") ? "selected" : ""; ?>>Clothing</option>
-                <option value="Toys" <?php echo ($product_data["category"] == "toys") ? "selected" : ""; ?>>Toys</option>
-                <option value="Books" <?php echo ($product_data["category"] == "books") ? "selected" : ""; ?>>Books</option>
-                <option value="Vehicles" <?php echo ($product_data["category"] == "vehicles") ? "selected" : ""; ?>>Vehicles</option>
-            </select><br>
-            <input type="submit" value="Update Listing">
-        </form>
-    <?php else: ?>
-        <p>Please select a product to update.</p>
-    <?php endif; ?>
+                        <div class="mb-3">
+                            <label for="category">Category</label>
+                            <select name="category" id="category" class="form-control" required>
+                                <option value="">Select a category</option>
+                                <option value="Electronics" <?php echo ($product_data["category"] == "Electronics") ? "selected" : ""; ?>>Electronics</option>
+                                <option value="Furniture" <?php echo ($product_data["category"] == "Furniture") ? "selected" : ""; ?>>Furniture</option>
+                                <option value="Clothing" <?php echo ($product_data["category"] == "Clothing") ? "selected" : ""; ?>>Clothing</option>
+                                <option value="Toys" <?php echo ($product_data["category"] == "Toys") ? "selected" : ""; ?>>Toys</option>
+                                <option value="Books" <?php echo ($product_data["category"] == "Books") ? "selected" : ""; ?>>Books</option>
+                                <option value="Vehicles" <?php echo ($product_data["category"] == "Vehicles") ? "selected" : ""; ?>>Vehicles</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">    
+                            <input type="submit" value="Update Listing" class="form-control btn btn-primary" style="width: 40%;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
 <?php
 $conn->close();
