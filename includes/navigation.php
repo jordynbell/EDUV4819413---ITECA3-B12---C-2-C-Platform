@@ -39,7 +39,7 @@ $role = isset($_SESSION["Role"]) ? $_SESSION["Role"] : null;
           <ul class="dropdown-menu" aria-labelledby="listingsDropdown">
             <li><a class="dropdown-item" href="/C2CPlatform/public/listing/index.php">View Listings</a></li>
             <li><a class="dropdown-item" href="/C2CPlatform/public/listing/create.php">Create Listing</a></li>
-            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/update.php">Update Listing</a></li>
+            <li><a class="dropdown-item" href="/C2CPlatform/public/listing/edit.php">Edit Listing</a></li>
             <li><a class="dropdown-item" href="/C2CPlatform/public/listing/seller_index.php">My Listings</a></li>
           </ul>
         </li>

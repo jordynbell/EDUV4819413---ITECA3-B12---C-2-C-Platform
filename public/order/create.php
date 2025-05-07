@@ -101,116 +101,146 @@ require_once __DIR__ . '/../../includes/header.php';
 
 ?>
 
-    <?php if ($product_data): ?>
-        <h1>Order Details</h1>
-        <table border="1">
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Seller Name</th>
-                <th>Seller Surname</th>
-            </tr>
-            <?php
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($product_data['title']) . "</td>";
-            echo "<td>" . htmlspecialchars($product_data['description']) . "</td>";
-            echo "<td>" . htmlspecialchars($product_data['category']) . "</td>";
-            echo "<td>R " . htmlspecialchars($product_data['price']) . "</td>";
-            echo "<td>" . htmlspecialchars($product_data['status']) . "</td>";
-            echo "<td>" . htmlspecialchars($product_data['name']) . "</td>";
-            echo "<td>" . htmlspecialchars($product_data['surname']) . "</td>";
-            echo "</tr>";
-            ?>
-        </table>
-        <form action="" method="post">
-            <input type="hidden" name="action" value="confirm">
-            <input type="hidden" name="product_id" value="<?php echo $product_data['product_id'] ?>">
-            <input type="hidden" name="price" value="<?php echo $product_data['price'] ?>">
+<?php if ($product_data): ?>
+    <div class="container">
+        <h1 class="text-center">Order Details</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered" border="1">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Seller Name</th>
+                    <th>Seller Surname</th>
+                </tr>
+                <?php
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($product_data['title']) . "</td>";
+                echo "<td>" . htmlspecialchars($product_data['description']) . "</td>";
+                echo "<td>" . htmlspecialchars($product_data['category']) . "</td>";
+                echo "<td>R " . htmlspecialchars($product_data['price']) . "</td>";
+                echo "<td>" . htmlspecialchars($product_data['status']) . "</td>";
+                echo "<td>" . htmlspecialchars($product_data['name']) . "</td>";
+                echo "<td>" . htmlspecialchars($product_data['surname']) . "</td>";
+                echo "</tr>";
+                ?>
+            </table>
+        </div>
+    </div>
 
-            <input type="radio" name="delivery_method" value="Delivery" checked>Delivery<br>
-            <input type="radio" name="delivery_method" value="Collection">Collection<br><br>
+    <form action="" method="post" class="container mt-4 mb-5">
+        <input type="hidden" name="action" value="confirm">
+        <input type="hidden" name="product_id" value="<?php echo $product_data['product_id'] ?>">
+        <input type="hidden" name="price" value="<?php echo $product_data['price'] ?>">
 
-            <div id="deliveryAddress">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Delivery Options</h4>
+            </div>
+            <div class="card-body">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="delivery_method" id="delivery" value="Delivery"
+                        checked>
+                    <label class="form-check-label" for="delivery">Delivery</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="delivery_method" id="collection" value="Collection">
+                    <label class="form-check-label" for="collection">Collection</label>
+                </div>
+            </div>
+        </div>
 
-                <h2>Delivery Address</h2>
+        <div id="deliveryAddress" class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Delivery Address</h4>
+            </div>
+            <div class="card-body">
 
                 <?php if (count($addresses) > 0): ?>
-                    <label for="existing_address">Select Existing Address:</label>
-                    <select name="existing_address" id="existing_address">
-                        <option value="">Select an address</option>
-                        <?php foreach ($addresses as $address): ?>
-                            <option
-                                value="<?= $address['address_id']; ?>"
-                                data-line="<?= htmlspecialchars($address['address_line']); ?>"
-                                data-city="<?= htmlspecialchars($address['city']); ?>"
-                                data-province="<?= htmlspecialchars($address['province']); ?>"
-                                data-country="<?= htmlspecialchars($address['country']); ?>"
-                                data-postal="<?= htmlspecialchars($address['postal_code']); ?>">
-                                <?= htmlspecialchars(
-                                    "{$address['address_line']}, {$address['city']}, {$address['province']}, {$address['country']}, {$address['postal_code']}"
-                                ); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                    <div class="mb-3">
+                        <label for="existing_address" class="form-label">Select Existing Address:</label>
+                        <select class="form-select" name="existing_address" id="existing_address">
+                            <option value="">Select an address</option>
+                            <?php foreach ($addresses as $address): ?>
+                                <option value="<?= $address['address_id']; ?>"
+                                    data-line="<?= htmlspecialchars($address['address_line']); ?>"
+                                    data-city="<?= htmlspecialchars($address['city']); ?>"
+                                    data-province="<?= htmlspecialchars($address['province']); ?>"
+                                    data-country="<?= htmlspecialchars($address['country']); ?>"
+                                    data-postal="<?= htmlspecialchars($address['postal_code']); ?>">
+                                    <?= htmlspecialchars(
+                                        "{$address['address_line']}, {$address['city']}, {$address['province']}, {$address['country']}, {$address['postal_code']}"
+                                    ); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <hr class="my-3">
+                    <h5>Or Enter a New Address:</h5>
                 <?php endif; ?>
 
-                <br><br>
-
-                <label for="Address">Address Line:</label>
-                <input type="text" name="address_line" id="address_line" placeholder="123 Steyn Road, Grape Village" value="<?php echo $address['address_line'][$address["address_id"]] ?? null ?>"><br><br>
-                <label for="City">City:</label>
-                <input type="text" name="city" id="city" placeholder="Cape Town"><br><br>
-                <label for="Province">Province:</label>
-                <input type="text" name="province" id="province" placeholder="Western Cape"><br><br>
-                <label for="Country">Country:</label>
-                <input type="text" name="country" id="country" placeholder="South Africa"><br><br>
-                <label for="Postal Code">Postal Code:</label>
-                <input type="text" name="postal_code" id="postal_code" placeholder="4321"><br><br>
-
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label for="address_line" class="form-label">Address Line:</label>
+                        <input type="text" class="form-control" name="address_line" id="address_line"
+                            placeholder="123 Steyn Road, Grape Village">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label">City:</label>
+                        <input type="text" class="form-control" name="city" id="city" placeholder="Cape Town">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="province" class="form-label">Province:</label>
+                        <input type="text" class="form-control" name="province" id="province" placeholder="Western Cape">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="country" class="form-label">Country:</label>
+                        <input type="text" class="form-control" name="country" id="country" placeholder="South Africa">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="postal_code" class="form-label">Postal Code:</label>
+                        <input type="text" class="form-control" name="postal_code" id="postal_code" placeholder="4321">
+                    </div>
+                </div>
             </div>
-
-            <button type="submit">Confirm Order</button>
-        </form>
-    <?php else: ?>
-        <p>No product selected.</p>
-    <?php endif; ?>
-
-    <?php
-    require_once __DIR__ . '/../../includes/footer.php';
-    ?>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Confirm Order</button>
+    </form>
+<?php else: ?>
+    <p>No product selected.</p>
+<?php endif; ?>
 
 <script>
-document.getElementById('existing_address')
-  .addEventListener('change', function() {
-    const opt = this.options[this.selectedIndex];
-    if (!this.value) {
-      // clear if “Select an address”
-      document.getElementById('address_line').value = '';
-      document.getElementById('city').value         = '';
-      document.getElementById('province').value     = '';
-      document.getElementById('country').value      = '';
-      document.getElementById('postal_code').value  = '';
-      return;
-    }
-    // populate from data- attributes
-    document.getElementById('address_line').value   = opt.dataset.line;
-    document.getElementById('city').value           = opt.dataset.city;
-    document.getElementById('province').value       = opt.dataset.province;
-    document.getElementById('country').value        = opt.dataset.country;
-    document.getElementById('postal_code').value    = opt.dataset.postal;
-});
+    document.getElementById('existing_address')
+        .addEventListener('change', function () {
+            const opt = this.options[this.selectedIndex];
+            if (!this.value) {
+                // clear if “Select an address”
+                document.getElementById('address_line').value = '';
+                document.getElementById('city').value = '';
+                document.getElementById('province').value = '';
+                document.getElementById('country').value = '';
+                document.getElementById('postal_code').value = '';
+                return;
+            }
+            // populate from data- attributes
+            document.getElementById('address_line').value = opt.dataset.line;
+            document.getElementById('city').value = opt.dataset.city;
+            document.getElementById('province').value = opt.dataset.province;
+            document.getElementById('country').value = opt.dataset.country;
+            document.getElementById('postal_code').value = opt.dataset.postal;
+        });
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const deliveryMethodRadios = document.querySelectorAll('input[name="delivery_method"]');
         const deliveryAddressDiv = document.getElementById('deliveryAddress');
 
         deliveryMethodRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 if (this.value === 'Delivery') {
                     deliveryAddressDiv.style.display = 'block';
                 } else {
@@ -220,3 +250,7 @@ document.getElementById('existing_address')
         });
     });
 </script>
+
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

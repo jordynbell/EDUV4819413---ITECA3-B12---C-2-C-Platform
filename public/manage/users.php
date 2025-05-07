@@ -43,7 +43,7 @@ require_once __DIR__ . '/../../includes/header.php';
             <th>Surname</th>
             <th>Email</th>
             <th>Role</th>
-            <th colspan="2">Actions</th>
+            <th>Actions</th>
 
             <?php
             while ($row = $result->fetch_assoc()) {
@@ -53,12 +53,16 @@ require_once __DIR__ . '/../../includes/header.php';
                 echo "<td>" . $row["surname"] . "</td>";
                 echo "<td>" . $row["email"] . "</td>";
                 echo "<td>" . $row["role"] . "</td>";
+                echo "<td class='d-flex gap-2'>";
                 if ($user_id != $row["user_id"]) {
-                    echo "<td><form action='' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' class='btn btn-primary'>Delete</button></form></td>";
-                } else {
-                    echo "<td></td>";
+                    echo "<form action='' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' class='btn btn-danger'>Delete</button></form>";
                 }
-                echo "<td><form action='update.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' name='loadUpdate' class='btn btn-primary'>Update</button></form></td>";
+                else
+                {
+                    echo "<div style='width: 72px;'></div>";
+                }
+                echo "<form action='edit.php' method='POST'><input type='hidden' name='user_id' value='" . htmlspecialchars($row['user_id']) . "'><button type='submit' name='loadEdit' class='btn btn-primary'>Edit</button></form>";
+                echo "</td>";
                 echo "</tr>";
             }
             $stmt->close();
@@ -67,7 +71,6 @@ require_once __DIR__ . '/../../includes/header.php';
         </table>
     </div>
 </div>
-
 
 <?php
 require_once __DIR__ . '/../../includes/footer.php';

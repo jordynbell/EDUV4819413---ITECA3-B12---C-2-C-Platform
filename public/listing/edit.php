@@ -11,7 +11,7 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
-$pageTitle = "Update Listing - Squito";
+$pageTitle = "Edit Listing - Squito";
 
 $sql = "SELECT product_id, title FROM product WHERE seller_id = '{$_SESSION['User_ID']}' AND status = 'active'";
 $result = $conn->query($sql);
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssdsii", $title, $description, $price, $category, $seller_id, $product_id);
 
     if ($stmt->execute()) {
-        header("Location: ../index.php");
+        header("Location: seller_index.php");
         exit;
     } else {
         echo "Error: " . $stmt->error;
@@ -62,14 +62,14 @@ require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <div class="container mx-auto mt-5 mb-5" style="max-width: 60rem;">
-    <h1 class="text-center mb-4">Update Listing</h1>
+    <h1 class="text-center mb-4">Edit Listing</h1>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm border rounded p-4">
                 <form action="" method="get">
                     <div class="form-group">
                         <div class="mb-3">
-                            <label for="id">Product to update</label>
+                            <label for="id">Product to edit</label>
                             <select name="id" id="id" class="form-control" required>
                                 <option value="">Select a product</option>
                                 <?php
@@ -80,15 +80,14 @@ require_once __DIR__ . '/../../includes/header.php';
                                         $selected = (isset($_GET['id']) && $_GET['id'] == $row["product_id"]) ? "selected" : "";
                                         echo "<option value='{$row["product_id"]}' $selected>{$row["title"]}</option>";
                                     }
-                                } else {
-                                    echo "<option value=''>No products found</option>";
                                 }
                                 ?>
                             </select>
                         </div>
 
                         <div class="mb-3 d-flex justify-content-center">
-                            <button type="submit" class="form-control btn btn-primary" style="width: 40%;">Load Product</button>
+                            <button type="submit" class="form-control btn btn-primary" style="width: 40%;">Load
+                                Product</button>
                         </div>
                     </div>
                 </form>
@@ -106,18 +105,19 @@ require_once __DIR__ . '/../../includes/header.php';
 
                         <div class="mb-3">
                             <label for="title">Title</label>
-                            <input type="text" name="title" id="title" value="<?php echo $product_data["title"]; ?>" class="form-control" required>
+                            <input type="text" name="title" id="title" value="<?php echo $product_data["title"]; ?>"
+                                class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="description">Description</label>
-                            <textarea name="description" id="description"
-                            class="form-control" required><?php echo $product_data["description"]; ?></textarea>
+                            <textarea name="description" id="description" class="form-control"
+                                required><?php echo $product_data["description"]; ?></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="price">Price</label>
-                            <input type="number" step="0.01" name="price" id="price" value="<?php echo $product_data["price"]; ?>"
-                               class="form-control" required>
+                            <input type="number" step="0.01" name="price" id="price"
+                                value="<?php echo $product_data["price"]; ?>" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
@@ -127,13 +127,16 @@ require_once __DIR__ . '/../../includes/header.php';
                                 <option value="Electronics" <?php echo ($product_data["category"] == "Electronics") ? "selected" : ""; ?>>Electronics</option>
                                 <option value="Furniture" <?php echo ($product_data["category"] == "Furniture") ? "selected" : ""; ?>>Furniture</option>
                                 <option value="Clothing" <?php echo ($product_data["category"] == "Clothing") ? "selected" : ""; ?>>Clothing</option>
-                                <option value="Toys" <?php echo ($product_data["category"] == "Toys") ? "selected" : ""; ?>>Toys</option>
-                                <option value="Books" <?php echo ($product_data["category"] == "Books") ? "selected" : ""; ?>>Books</option>
+                                <option value="Toys" <?php echo ($product_data["category"] == "Toys") ? "selected" : ""; ?>>
+                                    Toys</option>
+                                <option value="Books" <?php echo ($product_data["category"] == "Books") ? "selected" : ""; ?>>
+                                    Books</option>
                                 <option value="Vehicles" <?php echo ($product_data["category"] == "Vehicles") ? "selected" : ""; ?>>Vehicles</option>
                             </select>
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">    
-                            <input type="submit" value="Update Listing" class="form-control btn btn-primary" style="width: 40%;">
+                        <div class="mb-3 d-flex justify-content-center">
+                            <input type="submit" value="Edit Listing" class="form-control btn btn-primary"
+                                style="width: 40%;">
                         </div>
                     </form>
                 </div>

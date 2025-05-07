@@ -27,29 +27,31 @@ $stmt->close();
 require_once __DIR__ . '/../../includes/header.php';
 
 ?>
-    
-    <h1>Shipments</h1>
-    <table border="1">
-        <tr>
-            <th>Shipment ID</th>
-            <th>Delivery Method</th>
-            <th>Status</th>
-            <th>Order ID</th>
-            <th>Address ID</th>
-            <th>Date Shipped</th>
-        </tr>
-        <?php foreach ($shipments as $shipment): ?>
+<div class="container">
+    <h1 class="text-center">Shipments</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered" border="1">
             <tr>
-                <td><?php echo htmlspecialchars($shipment['shipment_id']); ?></td>
-                <td><?php echo htmlspecialchars($shipment['delivery_method']); ?></td>
-                <td><?php echo htmlspecialchars($shipment['delivery_status']); ?></td>
-                <td><?php echo htmlspecialchars($shipment['order_id']); ?></td>
-                <td><?php echo htmlspecialchars($shipment['address_id']); ?></td>
-                <td><?php echo htmlspecialchars($shipment['shipment_date']); ?></td>
+                <th>Shipment ID</th>
+                <th>Delivery Method</th>
+                <th>Status</th>
+                <th>Order ID</th>
+                <th>Address ID</th>
+                <th>Date Shipped</th>
             </tr>
-        <?php endforeach; ?>
-    </table>
-
-    <?php
-    require_once __DIR__ . '/../../includes/footer.php';
-    ?>
+            <?php foreach ($shipments as $shipment): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($shipment['shipment_id']); ?></td>
+                    <td><?php echo htmlspecialchars($shipment['delivery_method']); ?></td>
+                    <td><?php echo htmlspecialchars($shipment['delivery_status']); ?></td>
+                    <td><?php echo htmlspecialchars($shipment['order_id']); ?></td>
+                    <td><?php echo htmlspecialchars($shipment['address_id']); ?></td>
+                    <td><?php echo htmlspecialchars($shipment['shipment_date']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</div>
+<?php
+require_once __DIR__ . '/../../includes/footer.php';
+?>

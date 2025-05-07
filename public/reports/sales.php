@@ -22,41 +22,44 @@ require_once __DIR__ . '/../../includes/header.php';
 
 ?>
 
-    <h1>Sales</h1>
-    <table border="1">
-        <tr>
-            <th>Sale ID</th>
-            <th>Product ID</th>
-            <th>Total Price</th>
-            <th>Date Sold</th>
-        </tr>
-        <?php
-        $total = 0;
+<div class="container">
+    <h1 class="text-center">Sales</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered" border="1">
+            <tr>
+                <th>Sale ID</th>
+                <th>Product ID</th>
+                <th>Date Sold</th>
+                <th>Total Price</th>
+            </tr>
+            <?php
+            $total = 0;
 
-        $stmt = $conn->prepare('SELECT * FROM sale');
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $sales = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
+            $stmt = $conn->prepare('SELECT * FROM sale');
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $sales = $result->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
 
-        foreach ($sales as $sale):
-            $total += (float)$sale['price']; ?>
+            foreach ($sales as $sale):
+                $total += (float) $sale['price']; ?>
+
+                <tr>
+                    <td><?php echo htmlspecialchars($sale['sale_id']); ?></td>
+                    <td><?php echo htmlspecialchars($sale['product_id']); ?></td>
+                    <td><?php echo htmlspecialchars($sale['date_sold']); ?></td>
+                    <td><?php echo htmlspecialchars("R " . $sale['price']); ?></td>
+                </tr>
+            <?php endforeach; ?>
 
             <tr>
-                <td><?php echo htmlspecialchars($sale['sale_id']); ?></td>
-                <td><?php echo htmlspecialchars($sale['product_id']); ?></td>
-                <td><?php echo htmlspecialchars("R " . $sale['price']); ?></td>
-                <td><?php echo htmlspecialchars($sale['date_sold']); ?></td>
+                <td colspan="3" align="right"><strong>Total</strong></td>
+                <td><strong><?php echo 'R ' . number_format($total, 2); ?></strong></td>
             </tr>
-        <?php endforeach; ?>
 
-        <tr>
-            <td colspan="3" align="right"><strong>Total</strong></td>
-            <td><strong><?php echo 'R ' . number_format($total, 2); ?></strong></td>
-        </tr>
-
-    </table>
-
+        </table>
+    </div>
+</div>
 <?php
 require_once __DIR__ . '/../../includes/footer.php';
 ?>

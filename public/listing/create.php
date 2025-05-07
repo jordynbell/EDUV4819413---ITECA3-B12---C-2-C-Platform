@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssdsis", $title, $description, $price, $category, $seller_id, $status);
 
     if ($stmt->execute()) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         $stmt->close();
         exit;
     } else {

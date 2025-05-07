@@ -17,10 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_id = $_POST['product_id'];
     $seller_id = $_SESSION['User_ID'];
 
-    $stmt = $conn->prepare('DELETE FROM product WHERE product_id = ? AND seller_id = ?');
-    $stmt->bind_param("ii", $product_id, $seller_id);
-    if (!$stmt->execute()) {
-        echo "Error: " / $stmt->error;
+    if (isset(($_POST['action'])))
+    {
+        if ($_POST['action'] == 'delete')
+        {
+            $stmt = $conn->prepare('UPDATE product SET status = "Deleted" WHERE product_id = ? AND seller_id = ?');
+            $stmt->bind_param("ii", $product_id, $seller_id);
+            if (!$stmt->execute()) {
+                echo "Error: " / $stmt->error;
+            }
+        }
+        elseif ($_POST['action'] == 'edit')
+        {
+            header("Location: edit.php?id=" . $product_id);
+            exit;
+        }
     }
 }
 
@@ -55,7 +66,22 @@ require_once __DIR__ . '/../../includes/header.php';
                 echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                 echo "<td>R " . htmlspecialchars($row['price']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['status']) . "</td>";
-                echo "<td><form action='' method='POST'><input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'><button type='submit' class='btn btn-primary'>Delete</button></form></td>";
+                if ($row['status'] == 'Sold' || $row['status'] == 'Deleted') {
+                    echo "<td></td>";
+                } else {
+                    echo "<td>
+                        <form action='' method='POST' style='display:inline-block; margin-right:5px;'>
+                            <input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'>
+                            <input type='hidden' name='action' value='delete'>
+                            <button type='submit' class='btn btn-danger'>Delete</button>
+                        </form>
+                        <form action='' method='POST' style='display:inline-block;'>
+                            <input type='hidden' name='product_id' value='" . htmlspecialchars($row['product_id']) . "'>
+                            <input type='hidden' name='action' value='edit'>
+                            <button type='submit' class='btn btn-primary'>Edit</button>
+                        </form>
+                    </td>";
+                }
                 echo "</tr>";
             }
             ?>
