@@ -27,7 +27,8 @@ $role = isset($_SESSION["Role"]) ? $_SESSION["Role"] : null;
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <?php if (isset($_SESSION["User_ID"])): ?>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">        
         <li class="nav-item">
           <a class="nav-link" href="/C2CPlatform/public/index.php">Home</a>
         </li>
@@ -46,6 +47,7 @@ $role = isset($_SESSION["Role"]) ? $_SESSION["Role"] : null;
         <li class="nav-item">
           <a class="nav-link" href="/C2CPlatform/public/order/index.php">My Orders</a>
         </li>
+        <?php endif; ?>
         <?php if ($role === 'Admin'): ?>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="adminDropdown"
