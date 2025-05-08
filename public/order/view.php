@@ -11,21 +11,13 @@ if (!isset($_SESSION["Email"])) {
     exit;
 }
 
-$pageTitle = "View Order - Squito";
+$pageTitle = "View Order Details - Squito";
+
+$stmt = $conn->prepare('SELECT * FROM product where product_id = ?');
 
 require_once __DIR__ . '/../../includes/header.php';
-
 ?>
 
-<div class="container">
-    <div class="card mt-4 mb-4">
-        <div class="card-header">
-            <h2 class="text-center">Order Details</h2>
-        </div>
-        <div class="card-body">
-        </div>
-    </div>
 
-</div>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
