@@ -2,6 +2,7 @@ FROM php:8.3-apache
 
 WORKDIR /var/www
 COPY . .
+COPY config/config.main.php /var/www/config/config.php
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/public
 RUN sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
