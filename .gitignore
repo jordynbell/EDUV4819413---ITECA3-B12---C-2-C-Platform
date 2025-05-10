@@ -1,2 +1,2 @@
 # Ignore db config
-config/config.php
+config/config.local.php
